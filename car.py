@@ -14,20 +14,24 @@ IN1 = 17
 IN2 = 27
 IN3 = 22
 IN4 = 23
+PWM1 = 12
+PWM2 = 13
 
-# set up GPIO
-def setupGPIO():
-  GPIO.setmode(GPIO.BCM)
-  GPIO.setup(IN1, GPIO.OUT)
-  GPIO.setup(IN2, GPIO.OUT)
-  GPIO.setup(IN3, GPIO.OUT)
-  GPIO.setup(IN4, GPIO.OUT)
-  GPIO.output(IN1, False)
-  GPIO.output(IN2, False)
-  GPIO.output(IN3, False)
-  GPIO.output(IN4, False)
-
-setupGPIO()
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(IN1, GPIO.OUT)
+GPIO.setup(IN2, GPIO.OUT)
+GPIO.setup(IN3, GPIO.OUT)
+GPIO.setup(IN4, GPIO.OUT)
+GPIO.setup(PWM1, GPIO.OUT)
+GPIO.setup(PWM2, GPIO.OUT)
+GPIO.output(IN1, False)
+GPIO.output(IN2, False)
+GPIO.output(IN3, False)
+GPIO.output(IN4, False)
+drive_pwm = GPIO.PWM(PWM1, 100)
+turn_pwm = GPIO.PWM(PWM2, 100)
+drive_pwm.start(50)
+turn_pwm.start(30)
 
 app = Flask(__name__)
 
@@ -35,23 +39,27 @@ def drive(value):
   if value > 0: # forward
     GPIO.output(IN1, False)
     GPIO.output(IN2, True)
+    drive_pwm.ChangeDutyCycle(int(50.0 * value))
   elif value < 0: # backward
     GPIO.output(IN1, True)
     GPIO.output(IN2, False)
-  sleep(math.fabs(value / 100.0))
-  GPIO.output(IN1, False)
-  GPIO.output(IN2, False)
+    drive_pwm.ChangeDutyCycle(int(50.0 * -value))
+  else:
+    GPIO.output(IN1, False)
+    GPIO.output(IN2, False)
 
 def turn(value):
   if value > 0: # forward
     GPIO.output(IN3, True)
     GPIO.output(IN4, False)
+    turn_pwm.ChangeDutyCycle(int(30.0 * value))
   elif value < 0: # backward
     GPIO.output(IN3, False)
     GPIO.output(IN4, True)
-  sleep(math.fabs(value / 100.0))
-  GPIO.output(IN3, False)
-  GPIO.output(IN4, False)
+    turn_pwm.ChangeDutyCycle(int(30.0 * -value))
+  else:
+    GPIO.output(IN3, False)
+    GPIO.output(IN4, False)
 
 @app.route('/drive', methods=['POST'])
 def route_drive():
