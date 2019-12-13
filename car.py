@@ -39,7 +39,7 @@ def drive(value):
   if value > 0: # forward
     GPIO.output(IN1, False)
     GPIO.output(IN2, True)
-    drive_pwm.ChangeDutyCycle(int(575.0 * value))
+    drive_pwm.ChangeDutyCycle(int(75.0 * value))
   elif value < 0: # backward
     GPIO.output(IN1, True)
     GPIO.output(IN2, False)
