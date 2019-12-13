@@ -30,8 +30,8 @@ GPIO.output(IN3, False)
 GPIO.output(IN4, False)
 drive_pwm = GPIO.PWM(PWM1, 100)
 turn_pwm = GPIO.PWM(PWM2, 100)
-drive_pwm.start(50)
-turn_pwm.start(30)
+drive_pwm.start(75)
+turn_pwm.start(50)
 
 app = Flask(__name__)
 
@@ -39,11 +39,11 @@ def drive(value):
   if value > 0: # forward
     GPIO.output(IN1, False)
     GPIO.output(IN2, True)
-    drive_pwm.ChangeDutyCycle(int(50.0 * value))
+    drive_pwm.ChangeDutyCycle(int(575.0 * value))
   elif value < 0: # backward
     GPIO.output(IN1, True)
     GPIO.output(IN2, False)
-    drive_pwm.ChangeDutyCycle(int(50.0 * -value))
+    drive_pwm.ChangeDutyCycle(int(75.0 * -value))
   else:
     GPIO.output(IN1, False)
     GPIO.output(IN2, False)
@@ -52,11 +52,11 @@ def turn(value):
   if value > 0: # forward
     GPIO.output(IN3, True)
     GPIO.output(IN4, False)
-    turn_pwm.ChangeDutyCycle(int(30.0 * value))
+    turn_pwm.ChangeDutyCycle(int(50.0 * value))
   elif value < 0: # backward
     GPIO.output(IN3, False)
     GPIO.output(IN4, True)
-    turn_pwm.ChangeDutyCycle(int(30.0 * -value))
+    turn_pwm.ChangeDutyCycle(int(50.0 * -value))
   else:
     GPIO.output(IN3, False)
     GPIO.output(IN4, False)
