@@ -10,12 +10,12 @@ from flask import request
 
 # define the ports the IN1-4 for the motor board are connected to
 # based on the number coming after GPIO (BCM numbering mode) ex: IN1 is connected to port 11/GPIO17 which is 17
-IN1 = 6
-IN2 = 13
-IN3 = 19
-IN4 = 26
-PWM1 = 20
-PWM2 = 21
+IN1 = 26
+IN2 = 19
+IN3 = 13
+IN4 = 6
+PWM1 = 21
+PWM2 = 20
 
 DRIVE_SPEED = 100.0
 
