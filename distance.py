@@ -1,3 +1,8 @@
+'''
+Program for measuring distance between two points using a GPS connected to a Raspberry Pi
+Author: Jack LeValley
+Date: 2020-01-20
+'''
 from geopy.distance import distance
 
 # print(distance((37.7749, -122.4194), (40.7128, -74.0060)).miles)
